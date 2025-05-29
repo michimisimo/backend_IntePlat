@@ -1,8 +1,9 @@
 const supabase = require('../supabase/supabaseClient.js');
+const TABLE = 'productos';
 
 async function getAll() {
     const { data, error } = await supabase
-        .from('productos')
+        .from(TABLE)
         .select(` *,precioshistoricos(*)`);
 
     if (error) throw new Error(error.message);
@@ -11,7 +12,7 @@ async function getAll() {
 
 async function insert(producto) {
     const { data, error } = await supabase
-        .from('productos')
+        .from(TABLE)
         .insert([producto])
         .select()
         .single();
@@ -21,7 +22,7 @@ async function insert(producto) {
 
 async function update(id, datos) {
     const { data, error } = await supabase
-        .from('productos')
+        .from(TABLE)
         .update(datos)
         .eq('id', id)
         .select()
@@ -32,7 +33,7 @@ async function update(id, datos) {
 
 async function remove(id) {
     const { error } = await supabase
-        .from('productos')
+        .from(TABLE)
         .delete()
         .eq('id', id);
     if (error) throw new Error(error.message);

@@ -1,4 +1,4 @@
-const sucursalesRepository = require('../repositories/sucursales.repository');
+const sucursalesRepository = require('../repositories/sucursales.repository.js');
 
 async function getAll() {
     return await sucursalesRepository.getAll();

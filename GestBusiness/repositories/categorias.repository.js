@@ -1,7 +1,8 @@
 const supabase = require('../supabase/supabaseClient.js');
-const TABLE = 'sucursales';
+const TABLE = 'categorias';
 
 async function getAll() {
+    console.log('ejecutando consulta get all')
     const { data, error } = await supabase
         .from(TABLE)
         .select('*');
