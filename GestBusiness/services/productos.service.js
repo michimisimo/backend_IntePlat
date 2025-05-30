@@ -16,9 +16,14 @@ async function eliminarProducto(id) {
     return await productosRepository.remove(id);
 }
 
+async function productoById(id) {
+    return await productosRepository.productoById(id);
+}
+
 module.exports = {
     obtenerProductos,
     crearProducto,
     actualizarProducto,
     eliminarProducto,
+    productoById,
 };

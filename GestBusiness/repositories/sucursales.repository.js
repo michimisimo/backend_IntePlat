@@ -14,7 +14,7 @@ async function getById(id) {
     const { data, error } = await supabase
         .from(TABLE)
         .select('*')
-        .eq('id', id)
+        .eq('id_sucursal', id)
         .single();
 
     if (error) throw new Error(error.message);
@@ -35,7 +35,7 @@ async function update(id, sucursal) {
     const { data, error } = await supabase
         .from(TABLE)
         .update(sucursal)
-        .eq('id', id)
+        .eq('id_sucursal', id)
         .single();
 
     if (error) throw new Error(error.message);
@@ -46,7 +46,7 @@ async function remove(id) {
     const { data, error } = await supabase
         .from(TABLE)
         .delete()
-        .eq('id', id)
+        .eq('id_sucursal', id)
         .single();
     if (error) throw new Error(error.message);
     return data;

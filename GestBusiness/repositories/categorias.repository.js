@@ -2,7 +2,6 @@ const supabase = require('../supabase/supabaseClient.js');
 const TABLE = 'categorias';
 
 async function getAll() {
-    console.log('ejecutando consulta get all')
     const { data, error } = await supabase
         .from(TABLE)
         .select('*');
@@ -15,7 +14,7 @@ async function getById(id) {
     const { data, error } = await supabase
         .from(TABLE)
         .select('*')
-        .eq('id', id)
+        .eq('id_categoria', id)
         .single();
 
     if (error) throw new Error(error.message);
@@ -36,7 +35,7 @@ async function update(id, sucursal) {
     const { data, error } = await supabase
         .from(TABLE)
         .update(sucursal)
-        .eq('id', id)
+        .eq('id_categoria', id)
         .single();
 
     if (error) throw new Error(error.message);
@@ -47,7 +46,7 @@ async function remove(id) {
     const { data, error } = await supabase
         .from(TABLE)
         .delete()
-        .eq('id', id)
+        .eq('id_categoria', id)
         .single();
     if (error) throw new Error(error.message);
     return data;

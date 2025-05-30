@@ -38,9 +38,20 @@ async function eliminarProducto(req, res) {
     }
 }
 
+async function productoById(req, res) {
+    const { id } = req.params;
+    try {
+        const producto = await productosService.productoById(id);
+        res.status(200).send(producto);
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+}
+
 module.exports = {
     listarProductos,
     crearProducto,
     actualizarProducto,
     eliminarProducto,
+    productoById,
 };
