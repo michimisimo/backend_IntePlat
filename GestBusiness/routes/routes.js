@@ -5,9 +5,11 @@ const router = express.Router();
 const productosRoutes = require('./productos.routes.js');
 const sucursalesRoutes = require('./sucursales.routes.js');
 const categoriasRoutes = require('./categorias.routes.js');
+const pedidosRoutes = require('./pedidos.routes.js')
 
 router.use('/productos', productosRoutes);
 router.use('/sucursales', sucursalesRoutes);
 router.use('/categorias', categoriasRoutes);
+router.use('/pedidos', pedidosRoutes)
 
 module.exports = router;

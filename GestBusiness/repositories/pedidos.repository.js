@@ -1,18 +1,18 @@
 const supabase = require('../supabase/supabaseClient.js');
-const TABLE = 'productos';
+const TABLE = 'pedidos';
 
 async function getAll() {
     const { data, error } = await supabase
         .from(TABLE)
-        .select(` *,precioshistoricos(*)`)
+        .select(` *,cliente(*)`)
     if (error) throw new Error(error.message);
     return data;
 }
 
-async function insert(producto) {
+async function insert(pedido) {
     const { data, error } = await supabase
         .from(TABLE)
-        .insert([producto])
+        .insert([pedido])
         .select()
         .single();
     if (error) throw new Error(error.message);
@@ -23,7 +23,7 @@ async function update(id, datos) {
     const { data, error } = await supabase
         .from(TABLE)
         .update(datos)
-        .eq('id_producto', id)
+        .eq('id_pedido', id)
         .select()
         .single();
     if (error) throw new Error(error.message);
@@ -34,15 +34,15 @@ async function remove(id) {
     const { error } = await supabase
         .from(TABLE)
         .delete()
-        .eq('id_producto', id);
+        .eq('id_pedido', id);
     if (error) throw new Error(error.message);
 }
 
-async function productoById(id) {
+async function pedidoById(id) {
     const { data, error } = await supabase
         .from(TABLE)
-        .select(` *,precioshistoricos(*)`)
-        .eq('id_producto', id);
+        .select(` *,detallepedido(*)`)
+        .eq('id_pedido', id);
 
     if (error) throw new Error(error.message);
     return data;
@@ -53,5 +53,5 @@ module.exports = {
     insert,
     update,
     remove,
-    productoById,
+    pedidoById,
 };
