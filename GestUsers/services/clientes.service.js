@@ -42,4 +42,21 @@ async function remove(id) {
     return { success: true };
 }
 
-module.exports = { getAll, getById, create, update, remove };
+async function login(correo, pass) {
+    try {
+        const cliente = await clientesRepository.login(correo);
+
+        if (!cliente) {
+            throw new Error('cliente no encontrado');
+        }
+        if (cliente.contrasena_hash !== pass) {
+            throw new Error('Credenciales inválidas');
+        }
+
+        return cliente;
+    } catch (err) {
+        throw err;
+    }
+}
+
+module.exports = { getAll, getById, create, update, remove, login };

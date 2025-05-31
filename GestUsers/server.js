@@ -5,7 +5,7 @@ const app = express();
 const routes = require('./routes/routes');
 
 app.use(express.json());
-app.use('/apiUsers', routes); // todas las rutas comienzan con /apiBsnss
+app.use('/apiUsers', routes); // todas las rutas comienzan con /apiUsers
 
 const PORT = process.env.PORT || 5060;
 app.listen(PORT, () => {

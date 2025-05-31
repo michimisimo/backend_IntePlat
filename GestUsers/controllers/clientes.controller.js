@@ -46,4 +46,20 @@ async function remove(req, res) {
     }
 }
 
-module.exports = { getAll, getById, create, update, remove };
+async function login(req, res) {
+    try {
+        const { email, pass } = req.body;
+
+        if (!email || !pass) {
+            return res.status(400).json({ error: 'Email y contraseña son requeridos' });
+        }
+
+        const data = await clientesService.login(email, pass);
+
+        res.json(data);
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
+}
+
+module.exports = { getAll, getById, create, update, remove, login };
