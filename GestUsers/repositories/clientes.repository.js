@@ -1,4 +1,4 @@
-const { supabase } = require('../supabase/supabaseClient');
+const supabase = require('../supabase/supabaseClient');
 
 const TABLE = 'clientes';
 
