@@ -1,13 +1,14 @@
-require('dotenv').config();
-const express = require('express');
+require("dotenv").config();
+const cors = require("cors");
+const express = require("express");
 const app = express();
-
-const routes = require('./routes/routes');
+app.use(cors());
+const routes = require("./routes/routes");
 
 app.use(express.json());
-app.use('/apiUsers', routes); // todas las rutas comienzan con /apiUsers
+app.use("/apiBsnss", routes); // todas las rutas comienzan con /apiBsnss
 
-const PORT = process.env.PORT || 5060;
+const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
-    console.log(`Servidor corriendo en puerto ${PORT}`);
+  console.log(`Servidor corriendo en puerto ${PORT}`);
 });
