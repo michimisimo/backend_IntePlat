@@ -9,17 +9,22 @@ async function getById(id) {
     return await empleadosRepository.getById(id);
 }
 
-async function create(data) {
-    // Crear primero el usuario
-    const usuario = await usuariosRepository.create(data.usuario);
+async function create(usuario, empleado) {
+    try {
+        const usuariocreado = await usuariosRepository.create(usuario);
 
-    // Luego crear el empleado con la referencia al usuario
-    const empleadoData = {
-        ...data.empleado,
-        id_usuario: usuario.id
-    };
-
-    return await empleadosRepository.create(empleadoData);
+        try {
+            const empleadoData = {
+                ...empleado,
+                id_usuario: usuariocreado.id_usuario
+            };
+            return await empleadosRepository.create(empleadoData);
+        } catch (err) {
+            throw new Error(`Error al crear empleado en empleado.service: ${err.message}`);
+        }
+    } catch (err) {
+        throw new Error(`Error al crear usuario y empleado: ${err.message}`);
+    }
 }
 
 async function update(id, data) {

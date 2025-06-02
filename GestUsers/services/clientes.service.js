@@ -9,19 +9,20 @@ async function getById(id) {
   return await clientesRepository.getById(id);
 }
 
-async function create(data) {
-  // Crear primero el usuario
+async function create(usuario) {
+  try {
+    const usuarioCreado = await usuariosRepository.create(usuario);
+    try {
+      return await clientesRepository.create(usuarioCreado.id_usuario);
 
-  const usuario = await usuariosRepository.create(data);
-
-  // Crear cliente con referencia al usuario
-  const clienteData = {
-    ...data.cliente,
-    id_usuario: usuario.id,
-  };
-  console.log("clienteData", clienteData);
-
-  return await clientesRepository.create(clienteData);
+    } catch (err) {
+      console.error('problema al crear cliente en clientes.service')
+      throw err
+    }
+  } catch (err) {
+    console.error('problema al crear usuario en clientes.service')
+    throw err
+  }
 }
 
 async function update(id, data) {

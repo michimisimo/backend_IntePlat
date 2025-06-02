@@ -6,7 +6,7 @@ app.use(cors());
 const routes = require("./routes/routes");
 
 app.use(express.json());
-app.use("/apiBsnss", routes); // todas las rutas comienzan con /apiBsnss
+app.use("/apiUsers", routes);
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {

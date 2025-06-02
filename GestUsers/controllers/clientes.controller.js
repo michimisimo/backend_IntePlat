@@ -21,8 +21,9 @@ async function getById(req, res) {
 
 async function create(req, res) {
     try {
-        const data = await clientesService.create(req.body);
-        res.status(201).json(data);
+        const usuario = req.body;
+        const resultado = await clientesService.create(usuario);
+        res.status(201).json(resultado);
     } catch (error) {
         res.status(500).json({ error: error.message });
     }

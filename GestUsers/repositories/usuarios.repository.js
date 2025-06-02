@@ -2,7 +2,11 @@ const supabase = require("../supabase/supabaseClient");
 const TABLE = "usuarios";
 
 async function create(usuario) {
-  const { data, error } = await supabase.from(TABLE).insert(usuario).single();
+  const { data, error } = await supabase
+    .from(TABLE)
+    .insert(usuario)
+    .select()
+    .single();
   if (error) throw new Error(error.message);
   return data;
 }

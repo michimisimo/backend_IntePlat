@@ -21,8 +21,15 @@ async function getById(req, res) {
 
 async function create(req, res) {
     try {
-        const data = await empleadosService.create(req.body);
-        res.status(201).json(data);
+        const { usuario, empleado } = req.body;
+
+        if (!usuario || !empleado) {
+            return res.status(400).json({ error: 'Faltan datos de usuario o cliente' });
+        }
+
+        const resultado = await empleadosService.create(usuario, empleado);
+
+        res.status(201).json(resultado);
     } catch (err) {
         res.status(500).json({ error: err.message });
     }

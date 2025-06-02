@@ -18,7 +18,11 @@ async function getById(id) {
 }
 
 async function create(empleado) {
-  const { data, error } = await supabase.from(TABLE).insert(empleado).single();
+  const { data, error } = await supabase
+    .from(TABLE)
+    .insert(empleado)
+    .select()
+    .single();
   if (error) throw new Error(error.message);
   return data;
 }

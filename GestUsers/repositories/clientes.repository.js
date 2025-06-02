@@ -1,4 +1,4 @@
-const { supabase } = require("../supabase/supabaseClient");
+const supabase = require("../supabase/supabaseClient");
 
 const TABLE = "clientes";
 
@@ -18,8 +18,12 @@ async function getById(id) {
   return data;
 }
 
-async function create(cliente) {
-  const { data, error } = await supabase.from(TABLE).insert(cliente).single();
+async function create(id_usuario) {
+  const { data, error } = await supabase
+    .from(TABLE)
+    .insert({ id_usuario })
+    .select()
+    .single();
   if (error) throw new Error(error.message);
   return data;
 }
