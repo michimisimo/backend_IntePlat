@@ -2,7 +2,11 @@ const supabase = require("../supabase/supabaseClient.js");
 const TABLE = "empleados";
 
 async function getAll() {
-  const { data, error } = await supabase.from(TABLE).select("*");
+  const { data, error } = await supabase
+    .from(TABLE)
+    .select(`*, usuarios!inner(correo, nombre, apellido)`)
+    .eq('usuarios.activo', true);
+
   if (error) throw new Error(error.message);
   return data;
 }
@@ -10,9 +14,10 @@ async function getAll() {
 async function getById(id) {
   const { data, error } = await supabase
     .from(TABLE)
-    .select("*")
+    .select(`*, usuarios!inner(correo, nombre, apellido)`)
     .eq("id_usuario", id)
-    .single();
+    .eq("usuarios.activo", true)
+    .maybeSingle();
   if (error) throw new Error(error.message);
   return data;
 }
@@ -31,16 +36,7 @@ async function update(id, empleado) {
   const { data, error } = await supabase
     .from(TABLE)
     .update(empleado)
-    .eq("id_usuario", id)
-    .single();
-  if (error) throw new Error(error.message);
-  return data;
-}
-
-async function remove(id) {
-  const { data, error } = await supabase
-    .from(TABLE)
-    .delete()
+    .select()
     .eq("id_usuario", id)
     .single();
   if (error) throw new Error(error.message);
@@ -57,4 +53,4 @@ async function login(email) {
   return data;
 }
 
-module.exports = { getAll, getById, create, update, remove, login };
+module.exports = { getAll, getById, create, update, login };

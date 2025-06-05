@@ -15,23 +15,28 @@ async function update(id, usuario) {
   const { data, error } = await supabase
     .from(TABLE)
     .update(usuario)
-    .eq("id", id)
+    .eq("id_usuario", id)
     .single();
   if (error) throw new Error(error.message);
   return data;
 }
 
 async function remove(id) {
+  const { error } = await supabase
+    .from(TABLE)
+    .update({ activo: false })
+    .eq("id_usuario", id)
+    .single();
+
+  if (error) throw new Error(error.message);
+  return true;
+}
+
+async function getAll() {
   const { data, error } = await supabase
     .from(TABLE)
-    .delete()
-    .eq("id", id)
-    .single();
-  if (error) throw new Error(error.message);
-  return data;
-}
-async function getAll() {
-  const { data, error } = await supabase.from(TABLE).select("*");
+    .select("*")
+    .eq("activo", "TRUE");
   if (error) throw new Error(error.message);
   return data;
 }

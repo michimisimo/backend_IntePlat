@@ -1,5 +1,5 @@
 const empleadosRepository = require('../repositories/empleados.repository');
-const usuariosRepository = require('../repositories/usuarios.repository'); // asegúrate de tenerlo
+const usuariosRepository = require('../repositories/usuarios.repository');
 
 async function getAll() {
     return await empleadosRepository.getAll();
@@ -10,22 +10,41 @@ async function getById(id) {
 }
 
 async function create(usuario, empleado) {
-    try {
-        const usuariocreado = await usuariosRepository.create(usuario);
+    console.log(usuario);
 
-        try {
+    try {
+        const existente = await empleadosRepository.login(usuario.correo);
+        let id_usuario;
+
+        if (existente) {
+            const usuarioData = {
+                ...usuario,
+                id_usuario: existente.id_usuario,
+                "activo": true,
+            };
+
+            id_usuario = existente.id_usuario;
+
+            await usuariosRepository.update(id_usuario, usuarioData);
+
+            return await empleadosRepository.update(id_usuario, empleado);
+
+        } else {
+            const usuariocreado = await usuariosRepository.create(usuario);
+            id_usuario = usuariocreado.id_usuario;
+
             const empleadoData = {
                 ...empleado,
-                id_usuario: usuariocreado.id_usuario
+                id_usuario: id_usuario,
             };
+
             return await empleadosRepository.create(empleadoData);
-        } catch (err) {
-            throw new Error(`Error al crear empleado en empleado.service: ${err.message}`);
         }
     } catch (err) {
         throw new Error(`Error al crear usuario y empleado: ${err.message}`);
     }
 }
+
 
 async function update(id, data) {
     // Actualiza datos del empleado
@@ -38,17 +57,16 @@ async function update(id, data) {
 
     return empleado;
 }
-
 async function remove(id) {
-    // Eliminar empleado y su usuario asociado (cascade manual)
-    const empleado = await empleadosRepository.getById(id);
-    if (!empleado) throw new Error('Empleado no encontrado');
-
-    await empleadosRepository.remove(id);
-    await usuariosRepository.remove(empleado.id_usuario);
-
-    return { success: true };
+    try {
+        if (await usuariosRepository.remove(id)) {
+            return { success: true };
+        }
+    } catch (err) {
+        throw new Error(`Error al eliminar usuario: ${err.message}`);
+    }
 }
+
 
 async function login(correo, pass) {
     try {
