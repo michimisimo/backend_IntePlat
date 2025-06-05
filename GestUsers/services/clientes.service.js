@@ -11,13 +11,24 @@ async function getById(id) {
 
 async function create(usuario) {
   try {
-    const usuarioCreado = await usuariosRepository.create(usuario);
-    try {
-      return await clientesRepository.create(usuarioCreado.id_usuario);
+    const existente = await empleadosRepository.login(usuario.correo);
+    let id_usuario;
 
-    } catch (err) {
-      console.error('problema al crear cliente en clientes.service')
-      throw err
+    if (existente) {
+      const usuarioData = {
+        ...usuario,
+        id_usuario: existente.id_usuario,
+        "activo": true,
+      };
+
+      id_usuario = existente.id_usuario;
+
+      return await usuariosRepository.update(id_usuario, usuarioData);
+    } else {
+      const usuariocreado = await usuariosRepository.create(usuario);
+      id_usuario = usuariocreado.id_usuario;
+
+      return await usuariosRepository.create(id_usuario)
     }
   } catch (err) {
     console.error('problema al crear usuario en clientes.service')

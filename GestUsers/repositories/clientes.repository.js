@@ -32,6 +32,7 @@ async function update(id, cliente) {
   const { data, error } = await supabase
     .from(TABLE)
     .update(cliente)
+    .select()
     .eq("id_usuario", id)
     .single();
   if (error) throw new Error(error.message);
