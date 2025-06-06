@@ -3,11 +3,13 @@ const TABLE = 'pedidos';
 
 async function getAll() {
     const { data, error } = await supabase
-        .from(TABLE)
-        .select(` *,cliente(*)`)
+        .from('pedidos') // o tu tabla principal
+        .select(`*, clientes (*, usuarios(*)), detallepedido(*)`);
+
     if (error) throw new Error(error.message);
     return data;
 }
+
 
 async function insert(pedido) {
     const { data, error } = await supabase
