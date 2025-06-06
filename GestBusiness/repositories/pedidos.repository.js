@@ -3,7 +3,7 @@ const TABLE = 'pedidos';
 
 async function getAll() {
     const { data, error } = await supabase
-        .from('pedidos') // o tu tabla principal
+        .from('pedidos')
         .select(`*, clientes (*, usuarios(*)), detallepedido(*)`);
 
     if (error) throw new Error(error.message);
@@ -43,7 +43,7 @@ async function remove(id) {
 async function pedidoById(id) {
     const { data, error } = await supabase
         .from(TABLE)
-        .select(` *,detallepedido(*)`)
+        .select(`*, clientes (*, usuarios(*)), detallepedido(*)`)
         .eq('id_pedido', id);
 
     if (error) throw new Error(error.message);
