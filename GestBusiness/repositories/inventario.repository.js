@@ -15,7 +15,6 @@ async function getById(id) {
         .from(TABLE)
         .select('*')
         .eq('sucursal_id', id)
-        .single();
 
     if (error) throw new Error(error.message);
     return data;
@@ -25,6 +24,7 @@ async function create(inventario) {
     const { data, error } = await supabase
         .from(TABLE)
         .insert(inventario)
+        .select()
         .single();
 
     if (error) throw new Error(error.message);
@@ -39,6 +39,7 @@ async function update(inventario) {
         .update({ stock_actual })
         .eq('sucursal_id', id_sucursal)
         .eq('producto_id', id_producto)
+        .select()
         .single();
 
     if (error) throw new Error(error.message);
@@ -50,7 +51,6 @@ async function remove(id) {
         .from(TABLE)
         .delete()
         .eq('id_inventario', id)
-        .single();
     if (error) throw new Error(error.message);
     return data;
 }
