@@ -10,32 +10,33 @@ async function getById(id) {
 }
 
 async function create(usuario, empleado) {
-    console.log(usuario);
-
     try {
         const existente = await empleadosRepository.login(usuario.correo);
         let id_usuario;
 
-        if (existente) {
+        if (existente.length > 0) {
+            console.log("procede a actualizar")
+            id_usuario = existente[0].id_usuario;
+            console.log("existente:", id_usuario)
+
             const usuarioData = {
                 ...usuario,
-                id_usuario: existente.id_usuario,
-                "activo": true,
+                activo: true,
             };
 
-            id_usuario = existente.id_usuario;
-
             await usuariosRepository.update(id_usuario, usuarioData);
-
+            console.log("actualizado el usuario")
             return await empleadosRepository.update(id_usuario, empleado);
 
         } else {
-            const usuariocreado = await usuariosRepository.create(usuario);
-            id_usuario = usuariocreado.id_usuario;
+            console.log("procede a crear usuario")
+            const usuarioCreado = await usuariosRepository.create(usuario);
+            id_usuario = usuarioCreado.id_usuario;
+            console.log("creado", id_usuario)
 
             const empleadoData = {
                 ...empleado,
-                id_usuario: id_usuario,
+                id_usuario,
             };
 
             return await empleadosRepository.create(empleadoData);
@@ -44,6 +45,7 @@ async function create(usuario, empleado) {
         throw new Error(`Error al crear usuario y empleado: ${err.message}`);
     }
 }
+
 
 
 async function update(id, data) {

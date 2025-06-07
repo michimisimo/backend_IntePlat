@@ -48,7 +48,6 @@ async function login(email) {
     .from("usuarios")
     .select(` *,empleados(*)`)
     .eq("correo", email)
-    .single();
   if (error) throw new Error(error.message);
   return data;
 }
