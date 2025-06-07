@@ -72,12 +72,14 @@ async function remove(id) {
 
 async function login(correo, pass) {
     try {
+        console.log(correo)
+        console.log(pass)
         const empleado = await empleadosRepository.login(correo);
-
+        console.log(empleado)
         if (!empleado) {
             throw new Error('Empleado no encontrado');
         }
-        if (empleado.contrasena_hash !== pass) {
+        if (empleado[0].contrasena_hash !== pass) {
             throw new Error('Credenciales inválidas');
         }
 
