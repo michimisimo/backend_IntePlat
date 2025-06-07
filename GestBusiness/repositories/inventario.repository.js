@@ -14,7 +14,7 @@ async function getById(id) {
     const { data, error } = await supabase
         .from(TABLE)
         .select('*')
-        .eq('id_sucursal', id)
+        .eq('sucursal_id', id)
         .single();
 
     if (error) throw new Error(error.message);
