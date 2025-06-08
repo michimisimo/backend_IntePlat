@@ -2,7 +2,10 @@ const supabase = require("../supabase/supabaseClient.js");
 const TABLE = "pedidos";
 
 async function getAll() {
-  const { data, error } = await supabase.from(TABLE).select(` *,clientes(*)`);
+  const { data, error } = await supabase
+    .from("pedidos")
+    .select(`*, clientes (*, usuarios(*)), detallepedido(*)`);
+
   if (error) throw new Error(error.message);
   return data;
 }
