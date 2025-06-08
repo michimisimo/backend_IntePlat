@@ -5,7 +5,7 @@ async function getAll() {
   const { data, error } = await supabase
     .from(TABLE)
     .select(`*, usuarios!inner(correo, nombre, apellido)`)
-    .eq('usuarios.activo', true);
+    .eq("usuarios.activo", true);
 
   if (error) throw new Error(error.message);
   return data;
@@ -46,11 +46,15 @@ async function update(id, empleado) {
 async function login(email) {
   const { data, error } = await supabase
     .from("usuarios")
-    .select(` *,empleados(*)`)
-    .eq("correo", email)
-    .single();
+    .select(`*, empleados(*)`)
+    .eq("correo", email);
+
   if (error) throw new Error(error.message);
-  return data;
+  if (!data || data.length === 0) return null;
+  if (data.length > 1)
+    throw new Error("Correo duplicado: múltiples usuarios con ese correo");
+
+  return data[0];
 }
 
 module.exports = { getAll, getById, create, update, login };
