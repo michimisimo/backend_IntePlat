@@ -96,12 +96,22 @@ const controller = require("../controllers/productos.controller.js");
  *           schema:
  *             type: object
  *             properties:
+ *               codigo_producto:
+ *                 type: string
+ *               codigo_sku:
+ *                 type: string
  *               nombre:
  *                 type: string
- *               precio:
- *                 type: number
- *               categoria:
+ *               marca:
  *                 type: string
+ *               categoria_id:
+ *                 type: number
+ *               descripcion:
+ *                 type: string
+ *               activo:
+ *                 type: boolean
+ *               stock:
+ *                 type: number
  *     responses:
  *       200:
  *         description: Producto actualizado correctamente
